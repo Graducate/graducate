@@ -50,7 +50,7 @@ angular.module 'graducateApp'
   @return {Promise}
   ###
   createUser: (user, callback) ->
-    User.save user,
+    User.resource.save user,
       (data) ->
         $cookieStore.put 'token', data.token
         currentUser = User.resource.getMe()
