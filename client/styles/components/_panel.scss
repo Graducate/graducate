@@ -1,0 +1,22 @@
+.panel {
+  background-color: #fff;
+
+  .panel-header {
+    padding: 10px;
+  }
+
+  &.panel-primary {
+    .panel-header {
+      background-color: $color-primary-0;
+      color: #fff;
+
+      .panel-header-light {
+        color: $color-primary-4;
+      }
+    }
+  }
+
+  .panel-body {
+    padding: 10px;
+  }
+}

@@ -1,0 +1,29 @@
+<div class="col-md-8 box box-white">
+  <div class="single-question">
+    <h3>{{ question.title }}</h3>
+    <p>{{ question.creator.fullName }}</p>
+    <p>{{ question.body }}</p>
+  </div>
+  <div class="row answer-form">
+    <div class="col-md-8 col-md-offset-2">
+      <textarea rows="7"></textarea>
+      <div class="answer-tools text-center">
+        <button class="btn btn-primary btn-wide">Answer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="answer-list">
+    <h4>Svar</h4>
+    <div class="answer" ng-repeat="answer in question.answers">
+      <div class="answer-body">
+        {{ answer.body }}
+      </div>
+      <div class="comment-list">
+        <h5>Kommentarer</h5>
+        <div class="comment" ng-repeat="comment in answer.comments">
+          {{ comment.body }}
+        </div>
+    </div>
+  </div>
+</div>
