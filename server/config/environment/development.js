@@ -4,7 +4,7 @@
     mongo: {
       uri: 'mongodb://localhost/graducate-dev'
     },
-    seedDB: true
+    seedDB: false
   };
 
 }).call(this);

@@ -20,6 +20,10 @@
 
   router["delete"]('/:id', controller.destroy);
 
+  router.post('/:id/answer', controller.createAnswer);
+
+  router.post('/:id/commentAnswer', controller.commentAnswer);
+
   module.exports = router;
 
 }).call(this);

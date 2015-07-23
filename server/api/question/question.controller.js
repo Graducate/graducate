@@ -17,7 +17,7 @@
   Question = require('./question.model');
 
   exports.index = function(req, res) {
-    return Question.find().populate('creator').exec(function(err, questions) {
+    return Question.find().populate('creator answers.creator').exec(function(err, questions) {
       if (err) {
         return handleError(res, err);
       }
@@ -26,7 +26,7 @@
   };
 
   exports.show = function(req, res) {
-    return Question.findById(req.params.id).populate('creator').exec(function(err, question) {
+    return Question.findById(req.params.id).populate('creator answers.creator answers.comments.creator').exec(function(err, question) {
       if (err) {
         return handleError(res, err);
       }
@@ -81,6 +81,47 @@
           return handleError(res, err);
         }
         return res.status(204).send('No Content');
+      });
+    });
+  };
+
+  exports.createAnswer = function(req, res) {
+    return Question.findById(req.params.id, function(err, question) {
+      var answer;
+      if (err) {
+        return handleError(res, err);
+      }
+      if (!question) {
+        res.status(404).send('Not Found');
+      }
+      answer = question.answers.create(req.body);
+      question.answers.push(answer);
+      return question.save(function(err) {
+        if (err) {
+          return handleError(res, err);
+        }
+        return res.status(200).json(answer);
+      });
+    });
+  };
+
+  exports.commentAnswer = function(req, res) {
+    return Question.findById(req.params.id, function(err, question) {
+      var answer, comment;
+      if (err) {
+        handleError(res, err);
+      }
+      if (!question) {
+        res.status(404).send('Not Found');
+      }
+      answer = question.answers.id(req.body._id);
+      comment = answer.comments.create(req.body.comment);
+      answer.comments.push(comment);
+      return question.save(function(err) {
+        if (err) {
+          handleError(res, err);
+        }
+        return res.status(200).json(comment);
       });
     });
   };
