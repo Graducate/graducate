@@ -2,3 +2,11 @@
   background-color: #fff;
   padding: 20px;
 }
+
+.banner {
+  padding: $padding-large 0;
+
+  .banner-header {
+    margin-bottom: $margin-medium;
+  }
+}

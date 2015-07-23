@@ -6,24 +6,50 @@
   </div>
   <div class="row answer-form">
     <div class="col-md-8 col-md-offset-2">
-      <textarea rows="7"></textarea>
+      <textarea rows="7" ng-model="answer.body"></textarea>
       <div class="answer-tools text-center">
-        <button class="btn btn-primary btn-wide">Answer</button>
+        <button class="btn btn-primary btn-wide" ng-click="answer()">Answer</button>
       </div>
     </div>
   </div>
 
   <div class="answer-list">
-    <h4>Svar</h4>
-    <div class="answer" ng-repeat="answer in question.answers">
-      <div class="answer-body">
-        {{ answer.body }}
-      </div>
-      <div class="comment-list">
-        <h5>Kommentarer</h5>
-        <div class="comment" ng-repeat="comment in answer.comments">
-          {{ comment.body }}
+    <h4>Answers</h4>
+    <div class="answer row" ng-repeat="answer in question.answers | orderBy: '-dateCreated'">
+      <div class="col-sm-2 answer-creator">
+        <div class="answer-creator-avatar">
+          <img src="http://placehold.it/50x50">
         </div>
+        {{ answer.creator.role }}
+      </div>
+      <div class="col-sm-10">
+        <div class="answer-body">
+          {{ answer.body }}
+        </div>
+        <div class="comment-form">
+          <div class="input-group">
+            <input class="form-control" type="text" placeholder="Write your comment here" ng-model="answer.newComment.body">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" ng-click="comment(answer)">Comment</button>
+            </span>
+          </div>
+        </div>
+        <div class="comment-list">
+          <h5>Comments</h5>
+          <div class="row comment" ng-repeat="comment in answer.comments | orderBy: '-dateCreated'">
+            <div class="col-sm-1 comment-creator">
+              <div class="comment-creator-avatar">
+                <img src="http://placehold.it/30x30">
+              </div>
+            </div>
+            <div class="col-sm-11 comment-body">
+              <span class="comment-date">{{ comment.dateCreated | moment: 'LL' }}</span>
+              {{ comment.body }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="clear:both"></div>
     </div>
   </div>
 </div>

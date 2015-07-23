@@ -1,7 +1,7 @@
 input:not([type="submit"]) {
   width: 100%;
   border: 0;
-  border-bottom: 1px solid $color-body-light;
+  border-bottom: 1px solid $color-body-lighter;
   padding: 10px 5px;
   outline: none;
 }
@@ -11,4 +11,5 @@ textarea {
   width: 100%;
   padding: 10px 5px;
   outline: none;
+  border-radius: 5px;
 }

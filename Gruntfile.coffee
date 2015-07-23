@@ -602,10 +602,10 @@ module.exports = (grunt) ->
 
   grunt.registerTask "stage", ->
     grunt.task.run [
-      "bump-only:prerelease"
+      #"bump-only:prerelease"
       "default"
       "buildcontrol:heroku_stage"
-      "bump-commit"
+      #"bump-commit"
     ]
 
 # --------------------------------------------------------------------------------------

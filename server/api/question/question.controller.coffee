@@ -14,7 +14,7 @@ Question = require('./question.model')
 # Get list of questions
 exports.index = (req, res) ->
   Question.find()
-  .populate 'creator'
+  .populate 'creator answers.creator'
   .exec (err, questions) ->
     if err
       return handleError(res, err)
@@ -23,7 +23,7 @@ exports.index = (req, res) ->
 # Get a single question
 exports.show = (req, res) ->
   Question.findById req.params.id
-  .populate 'creator'
+  .populate 'creator answers.creator answers.comments.creator'
   .exec (err, question) ->
     if err
       return handleError(res, err)
@@ -65,5 +65,36 @@ exports.destroy = (req, res) ->
         return handleError(res, err)
       res.status(204).send 'No Content'
 
+exports.createAnswer = (req, res) ->
+  Question.findById req.params.id, (err, question) ->
+    if err
+      return handleError res, err
+    if !question
+      res.status(404).send 'Not Found'
+
+    answer = question.answers.create req.body
+    question.answers.push answer
+
+    question.save (err) ->
+      if err
+        return handleError res, err
+      res.status(200).json answer
+
+exports.commentAnswer = (req, res) ->
+  Question.findById req.params.id, (err, question) ->
+    if err
+      handleError res, err
+    if !question
+      res.status(404).send 'Not Found'
+
+    answer = question.answers.id req.body._id
+    comment = answer.comments.create req.body.comment
+
+    answer.comments.push comment
+
+    question.save (err) ->
+      if err
+        handleError res, err
+      res.status(200).json comment
 handleError = (res, err) ->
   res.send 500, err
